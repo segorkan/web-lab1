@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лаб. 1</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <table id="layout-table">
+        <tr>
+            <td colspan="2">
+                <header id="page-header">
+                    <div>Ярков Сергей</div>
+                    <div>P3208</div>
+                    <div>Вариант 12640</div>
+                </header>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form class="box" id="check-form" novalidate>
+                    <div class="input-group">
+                        <label>Выберите параметр X:<br></label>
+                        <button type="button" class="unselected-button">-3</button>
+                        <button type="button" class="unselected-button">-2</button>
+                        <button type="button" class="unselected-button">-1</button>
+                        <button type="button" class="unselected-button">0</button>
+                        <button type="button" class="unselected-button">1</button>
+                        <button type="button" class="unselected-button">2</button>
+                        <button type="button" class="unselected-button">3</button>
+                        <button type="button" class="unselected-button">4</button>
+                        <button type="button" class="unselected-button">5</button>
+                        <div class="error-label" id="x-error"><p></p></div>
+                    </div>
+                
+                    <div class="input-group">
+                        <label for="y-input">Выберите параметр Y:<br></label>
+                        <input id="y-input" type="text" placeholder="-5 ... 3" size="30" maxlength="17">
+                        <div class="error-label" id="y-error"><p></p></div>
+                    </div>
+                
+                    <div class="input-group">
+                        <label for="r-select">Выберите параметр R:<br></label>
+                
+                        <select id="r-select">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                
+                        <div class="error-label" id="r-error"><p></p></div>
+                    </div>
+                
+                    <div class="send-group">
+                        <button type="submit">Проверка</button>
+                    </div>
+                
+                    <div class="clear-group">
+                        <button type="button">Очистка</button>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <canvas id="graph" width="600" height="600"></canvas>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="table-box">
+                    <table cellpadding="10" id="checks">
+                        <thead>
+                            <tr class="table-head">
+                                <th>X</th>
+                                <th>Y</th>
+                                <th>R</th>
+                                <th>Результат</th>
+                                <th>Дата и время проверки</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checks-body">
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script src="scripts/draw.js"></script>
+    <script src="scripts/script.js"></script>
+</body>
+</html>
