@@ -36,7 +36,7 @@ const clear_button = document.querySelector(".clear-group button");
 const select_element = document.querySelector("#r-select");
 const text_element = document.querySelector("#y-input");
 const table_button = document.querySelector(".tablebutton-group button");
-const funny_button = document.querySelector("#ahuet");
+const funny_button = document.querySelector("#fun");
 
 let current_r;
 let current_x;
