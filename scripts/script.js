@@ -35,6 +35,15 @@ const buttons = document.querySelectorAll(".input-group button");
 const clear_button = document.querySelector(".clear-group button");
 const select_element = document.querySelector("#r-select");
 const text_element = document.querySelector("#y-input");
+const table_button = document.querySelector(".tablebutton-group button");
+const funny_button = document.querySelector("#ahuet");
+
+let current_r;
+let current_x;
+let current_y;
+let current_color;
+let wasDrawn = false;
+let pointActive = false;
 
 let selectedButton = null;
 
@@ -45,7 +54,7 @@ buttons.forEach(button => {
 
         if (button == selectedButton){
             button.classList.remove("selected-button");
-            selectedButton = null;
+            selectedButton = null;  
             return;
         }
 
@@ -61,7 +70,6 @@ buttons.forEach(button => {
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-
     let is_wrong = false;
     if (select_element.selectedIndex === 0) {
         select_element.classList.add("error");
@@ -91,7 +99,7 @@ form.addEventListener("submit", (event) => {
         is_wrong = true;
     } else {
         const y_temp = Number(y_value);
-        if (y_temp < -5 || y_temp > 3) {
+        if (y_temp <= -5 || y_temp >= 3) {
             y_error.textContent = "Y должен быть в диапазоне (-5 .. 3)";
             text_element.classList.add("error");
             is_wrong = true;
@@ -112,8 +120,21 @@ form.addEventListener("submit", (event) => {
     drawFigure(context, r);
     context.strokeStyle = "black";
     drawCoords(canvas, context);
-    drawPoint(context, 300 + x * 40, 300 - y * 40);
-    addCheck(r, x, y, checkIfInsideFigure(r, x, y));
+    let result = checkIfInsideFigure(r, x, y);
+    if (result){
+        drawPoint(context, 300 + x * 40, 300 - y * 40, "lime");
+        current_color = "lime";
+    }
+    else {
+        drawPoint(context, 300 + x * 40, 300 - y * 40, "red");
+        current_color = "red";
+    }
+    addCheck(r, x, y, result);
+    current_r = r;
+    current_x = x;
+    current_y = y;
+    wasDrawn = true;
+    pointActive = true;
 });
 
 
@@ -134,6 +155,61 @@ clear_button.addEventListener("click", () => {
 select_element.addEventListener("change", () => {
     select_element.classList.remove("error");
     r_error.textContent = "";
+    if (select_element.selectedIndex === 0) {
+        return;
+    }
+    const rad = Number(select_element.value);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "#378CFA";
+    drawFigure(context, rad);
+    context.strokeStyle = "black";
+    drawCoords(canvas, context);
+    current_r = rad;
+    pointActive = false;
+});
+
+table_button.addEventListener("click", () => {
+    localStorage.removeItem("results");
+    const tbody = document.getElementById("checks-body");
+    while (tbody.firstChild){
+        tbody.removeChild(tbody.firstChild);
+    }
+});
+
+
+funny_button.addEventListener("click", () =>{
+    let img = new Image();
+    img.src = "Чил-зима-в-Египте.png";
+    img.onload = (() =>{
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        context.fillStyle = "#378CFA";
+        if (wasDrawn){
+            drawFigure(context, current_r);
+        }
+        else {
+            drawFigure(context, 3);
+        }
+        context.strokeStyle = "black";
+        drawCoords(canvas, context);
+        if (wasDrawn && pointActive){
+            drawPoint(context, 300 + current_x * 40, 300 - current_y * 40, current_color);
+        }
+        setTimeout(() => {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = "#378CFA";
+            if (wasDrawn){
+                drawFigure(context, current_r);
+            }
+            else {
+                drawFigure(context, 3);
+            }
+            context.strokeStyle = "black";
+            drawCoords(canvas, context);
+            if (wasDrawn && pointActive){
+                drawPoint(context, 300 + current_x * 40, 300 - current_y * 40, current_color);
+            }
+        }, 2000);
+    });
 });
 
 
@@ -164,7 +240,7 @@ function addCheck(r, x, y, result) {
         timestamp: Date.now()
     };
     results.push(check);
-    localStorage.setItem("results",JSON.stringify(results));
+    localStorage.setItem("results", JSON.stringify(results));
     addRow(check);
 }
 

@@ -25,9 +25,9 @@ function drawFigure(context, r){
     context.fill();
 }
 
-function drawPoint(context, x, y){
+function drawPoint(context, x, y, color){
     context.beginPath();
-    context.fillStyle = "red";
+    context.fillStyle = color;
     context.moveTo(x, y);
     context.arc(x, y, 3, 0, Math.PI * 2, false);
     context.fill();
